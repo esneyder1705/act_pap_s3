@@ -17,11 +17,16 @@ class ProductoParcial(BaseModel):
     categoria: Optional[str] = None
     stock: Optional[int] = None
 
-# ✅ Base de datos simulada
+# ✅ Base de datos simulada con productos reales de mascotas
 productos = [
-    {"id": 1, "nombre": "Croquetas para perro", "precio": 25.0, "categoria": "alimento", "stock": 50},
-    {"id": 2, "nombre": "Pelota con sonido", "precio": 10.5, "categoria": "juguetes", "stock": 30},
-    {"id": 3, "nombre": "Collar de cuero", "precio": 15.0, "categoria": "accesorios", "stock": 20}
+    {"id": 1, "nombre": "Croquetas premium para perro", "precio": 42.5, "categoria": "alimento", "stock": 100},
+    {"id": 2, "nombre": "Rascador para gatos", "precio": 35.0, "categoria": "accesorios", "stock": 25},
+    {"id": 3, "nombre": "Juguete interactivo para gato", "precio": 18.0, "categoria": "juguetes", "stock": 40},
+    {"id": 4, "nombre": "Comedero automático", "precio": 55.9, "categoria": "accesorios", "stock": 15},
+    {"id": 5, "nombre": "Alpiste para canarios", "precio": 9.5, "categoria": "alimento", "stock": 60},
+    {"id": 6, "nombre": "Collar luminoso para perro", "precio": 12.75, "categoria": "accesorios", "stock": 35},
+    {"id": 7, "nombre": "Pelota de goma para perro", "precio": 6.0, "categoria": "juguetes", "stock": 50},
+    {"id": 8, "nombre": "Arena sanitaria para gatos", "precio": 14.3, "categoria": "alimento", "stock": 45},
 ]
 
 # ✅ GET: Listar productos, con filtros opcionales por nombre y categoría
@@ -48,7 +53,7 @@ def obtener_producto(producto_id: int):
 # ✅ POST: Crear nuevo producto
 @app.post("/productos/", status_code=201)
 def crear_producto(producto: Producto):
-    nuevo_id = max([p["id"] for p in productos], default=0) + 1
+    nuevo_id = max((p["id"] for p in productos), default=0) + 1
     nuevo_producto = {
         "id": nuevo_id,
         "nombre": producto.nombre,
@@ -57,7 +62,8 @@ def crear_producto(producto: Producto):
         "stock": producto.stock
     }
     productos.append(nuevo_producto)
-    return {"mensaje": "Producto creado", "producto": nuevo_producto}
+    return {"mensaje": "Producto creado correctamente", "producto": nuevo_producto}
+
 
 # ✅ PUT: Actualizar todos los campos de un producto
 @app.put("/productos/{producto_id}")
